@@ -1,8 +1,11 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
-
 from pydantic import BaseModel
 
+
+# =========================
+# DATABASE MODEL
+# =========================
 class Account(SQLModel, table=True):
     __tablename__ = "accounts"
 
@@ -15,21 +18,36 @@ class Account(SQLModel, table=True):
     username: str
     password: str
 
-# untuk POST
+
+# =========================
+# REQUEST SCHEMAS
+# =========================
+
 class AccountCreate(BaseModel):
-    name: str
+    user_id: int
+    role_id: int
     email: str
+    username: str
+    password: str
 
-# untuk PUT
+
 class AccountUpdate(BaseModel):
-    name: str
-    email: str
+    email: Optional[str] = None
+    username: Optional[str] = None
+    password: Optional[str] = None
+    role_id: Optional[int] = None
 
-# untuk response Swagger
+
+# =========================
+# RESPONSE SCHEMA
+# =========================
+
 class AccountResponse(BaseModel):
     id: int
-    name: str
+    user_id: int
+    role_id: int
     email: str
+    username: str
 
     class Config:
         from_attributes = True

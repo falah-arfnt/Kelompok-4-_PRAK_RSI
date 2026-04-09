@@ -1,19 +1,29 @@
-from sqlalchemy import Column, Integer, String
-from src.database.connection import Base
+from sqlmodel import SQLModel, Field
+from typing import Optional
 from pydantic import BaseModel
 
 
-class Role(Base):
+# =========================
+# DATABASE MODEL (SQLModel)
+# =========================
+class Role(SQLModel, table=True):
     __tablename__ = "roles"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
+    id: Optional[int] = Field(default=None, primary_key=True)
+    name: str
+
+
+# =========================
+# SCHEMAS (Pydantic)
+# =========================
 
 class RoleCreate(BaseModel):
     name: str
 
+
 class RoleUpdate(BaseModel):
     name: str
+
 
 class RoleResponse(BaseModel):
     id: int
