@@ -1,16 +1,18 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class AccountCreate(BaseModel):
+class RegistrationCreate(BaseModel):
     user_id: int
-    role_id: int
-    username: str
-    password: str
+    event_id: int
 
-class AccountResponse(BaseModel):
+class RegistrationUpdate(BaseModel):
+    user_id: Optional[int] = None
+    event_id: Optional[int] = None
+
+class RegistrationResponse(BaseModel):
     id: int
     user_id: int
-    role_id: int
-    username: str
+    event_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True

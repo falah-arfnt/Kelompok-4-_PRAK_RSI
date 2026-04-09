@@ -1,16 +1,15 @@
 from pydantic import BaseModel
+from typing import Optional
 
-class AccountCreate(BaseModel):
-    user_id: int
-    role_id: int
-    username: str
-    password: str
+class RoleCreate(BaseModel):
+    name: str
 
-class AccountResponse(BaseModel):
+class RoleUpdate(BaseModel):
+    name: Optional[str] = None
+
+class RoleResponse(BaseModel):
     id: int
-    user_id: int
-    role_id: int
-    username: str
+    name: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
