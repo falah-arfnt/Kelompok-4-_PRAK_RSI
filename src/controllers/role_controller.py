@@ -1,9 +1,4 @@
 from sqlalchemy.orm import Session
-<<<<<<< HEAD
-=======
-from src.database.connection import get_db
-from src.dto.role_dto import RoleCreate, RoleUpdate, RoleResponse
->>>>>>> 9b045c51bb768bbd250802c96013b7a3548b878c
 from src.services import role_service
 
 def get_roles(db: Session):

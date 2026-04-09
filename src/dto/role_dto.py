@@ -12,12 +12,7 @@ class RoleResponse(BaseModel):
     name: str
 
     class Config:
-<<<<<<< HEAD
-=======
-        orm_mode = True
-
-class RoleCreate(BaseModel):
-    name: str
+        from_attributes = True
 
 class RoleUpdate(BaseModel):
     name: str
@@ -27,5 +22,4 @@ class RoleResponse(BaseModel):
     name: str
 
     class Config:
->>>>>>> 9b045c51bb768bbd250802c96013b7a3548b878c
         from_attributes = True
