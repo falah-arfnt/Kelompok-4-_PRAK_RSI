@@ -1,10 +1,19 @@
-from sqlmodel import SQLModel, Field
 from typing import Optional
+from sqlmodel import SQLModel, Field
 
-class User(SQLModel, table=True):
-    __tablename__ = "users"
+class UserBase(SQLModel):
+    name: str
 
+class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    first_name: str
-    last_name: Optional[str] = None
-    whatsapp: Optional[str] = None
+
+class UserCreate(UserBase):
+    pass
+
+class UserUpdate(UserBase):
+    pass
+class UserResponse(UserBase):
+    id: int
+
+    class Config:
+        from_attributes = True

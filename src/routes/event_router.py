@@ -1,15 +1,42 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from src.database.connection import get_db
-from src.controllers import event_controller
-from src.dto.event_dto import EventCreate
+from src.database.schema.event import Event
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
 @router.get("/")
 def get_events(db: Session = Depends(get_db)):
-    return event_controller.get_events(db)
+    return db.query(Event).all()
 
 @router.post("/")
-def create_event(event: EventCreate, db: Session = Depends(get_db)):
-    return event_controller.create_event(db, event)
+def create_event(event: Event, db: Session = Depends(get_db)):
+    db.add(event)
+    db.commit()
+    db.refresh(event)
+    return event
+
+@router.put("/{id}")
+def update_event(id: int, event: Event, db: Session = Depends(get_db)):
+    event_db = db.query(Event).filter(Event.id == id).first()
+
+    if not event_db:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    event_db.name = event.name
+    db.commit()
+    db.refresh(event_db)
+
+    return event_db
+
+@router.delete("/{id}")
+def delete_event(id: int, db: Session = Depends(get_db)):
+    event_db = db.query(Event).filter(Event.id == id).first()
+
+    if not event_db:
+        raise HTTPException(status_code=404, detail="Event not found")
+
+    db.delete(event_db)
+    db.commit()
+
+    return {"message": "Event deleted"}

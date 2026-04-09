@@ -14,3 +14,16 @@ class AccountResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+class RoleCreate(BaseModel):
+    name: str
+
+class RoleUpdate(BaseModel):
+    name: str
+
+class RoleResponse(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        from_attributes = True
